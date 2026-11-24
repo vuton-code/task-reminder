@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}{{ title }} | Projects Management Hub{% endblock %}{% block content %}
+<div class="auth-card"><p class="eyebrow">TASK-REMINDER</p><h1>{{ title }}</h1>
+{% if google %}<form method="post" action="{% url 'google-login' %}" class="google-form">{% csrf_token %}<input type="hidden" name="next" value="{{ request.GET.next|default:'/projects' }}"><button class="google-button"><span class="google-letter">G</span> Continue with Google</button></form><div class="divider">or use your password</div>{% endif %}
+<form method="post" class="stack">{% csrf_token %}{{ form.as_p }}<button class="primary">{{ button }}</button></form>
+{% if google %}<div class="auth-links"><a href="{% url 'register' %}">Create an account</a><a href="{% url 'recovery' %}">Forgot password?</a><a href="{% url 'login' %}">Sign in</a></div>{% endif %}
+{% if connections %}<a class="inline-link" href="{% url 'connections' %}">Manage Google sign-in →</a>{% endif %}</div>
+{% endblock %}

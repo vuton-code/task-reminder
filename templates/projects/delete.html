@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Delete {{ project.name }} | Projects Management Hub{% endblock %}
+{% block content %}<section class="panel compact danger-panel"><p class="eyebrow">OWNER SETTINGS</p><h1 id="delete-heading">Delete project?</h1>
+<p>You are deleting <strong>{{ project.name }}</strong> for every member. This cannot be undone.</p>
+<ul><li>All tasks, groups, invitations, and memberships in this project will be removed.</li><li>Pending reminders will be canceled. Email already delivered cannot be recalled.</li><li>Your account and other projects will stay intact.</li></ul>
+<form method="post" action="{% url 'project-delete' project.id %}" aria-labelledby="delete-heading" class="stack">{% csrf_token %}{{ form.as_p }}
+<div class="form-actions"><a class="button" href="{% url 'members' project.id %}">Keep project</a><button class="danger-button" type="submit">Permanently delete project</button></div></form></section>{% endblock %}

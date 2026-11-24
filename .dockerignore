@@ -1,0 +1,9 @@
+.venv
+.git
+.agents
+.specify
+.runtime
+artifacts
+.env*
+__pycache__
+.pytest_cache

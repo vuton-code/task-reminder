@@ -1,0 +1,18 @@
+{% load static %}<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Projects Management Hub{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'css/app.css' %}?v=20261122-reminder-details-4"><link rel="manifest" href="{% static 'manifest.webmanifest' %}">
+<meta name="theme-color" content="#194c45"></head>
+<body><a class="skip-link" href="#main-content">Skip to content</a><div class="app-shell">
+<aside class="sidebar"><a class="brand" href="{% url 'projects' %}"><span class="brand-mark" aria-hidden="true">✓</span><span>Projects Management Hub</span></a>
+<p class="nav-label">WORKSPACE</p><nav aria-label="Workspace"><a href="{% url 'projects' %}">Projects</a><a href="{% url 'reminders' %}">My reminders <span class="nav-dot"></span></a></nav>
+{% if user.is_authenticated %}<p class="nav-label">YOUR PROJECTS</p><nav aria-label="Your projects">{% for item in navigation_projects %}<a href="{% url 'task-list' item.id %}" class="{% if project.id == item.id %}selected{% endif %}"><span class="project-dot" aria-hidden="true"></span><span class="project-nav-copy">{{ item.name }}<small>{{ item.current_role }}</small></span></a>{% empty %}<p class="muted small">Your next project starts here.</p>{% endfor %}</nav>
+<div class="sidebar-bottom"><a href="{% url 'preferences' %}">Preferences</a><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="text-button">Sign out</button></form></div>
+{% else %}<div class="sidebar-bottom"></div>{% endif %}</aside>
+<main id="main-content" tabindex="-1"><header class="topbar"><span>{% if project %}Projects <span class="slash">/</span> {{ project.name }}{% else %}Your workspace{% endif %}</span>{% if user.is_authenticated %}<a class="account-chip" href="{% url 'preferences' %}"><span class="avatar" aria-hidden="true">{{ user.display_name|first|upper }}</span><span><small>Signed in as</small><strong>{{ user.display_name }}</strong><small>{{ user.email }}</small></span></a>{% endif %}</header>
+<div class="content">{% for message in messages %}<div class="flash" role="status" data-save-notice>{{ message }}</div>{% endfor %}
+{% if user.is_authenticated and not user.email_verified_at %}<div class="flash">Verify your email to create projects or accept invitations.<form method="post" action="{% url 'resend-verification' %}">{% csrf_token %}<button class="text-button">Send verification email</button></form></div>{% endif %}
+{% block content %}{% endblock %}</div></main></div>
+{% if user.is_authenticated %}<script src="{% static 'js/reminders.js' %}?v=20261122-reminder-details-4" defer></script>{% endif %}
+<script src="{% static 'js/forms.js' %}" defer></script></body></html>
+

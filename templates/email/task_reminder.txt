@@ -1,0 +1,4 @@
+{{ title }}
+
+Open the task to see its current status:
+{{ task_url }}
